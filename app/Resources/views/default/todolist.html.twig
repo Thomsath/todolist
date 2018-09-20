@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<ul>
+{% for session in sessions %}
+    <li>{{ session.content }}</li>
+{% endfor %}
+</ul>
+{% endblock %}
