@@ -2,8 +2,11 @@
 
 {% block body %}
 <ul>
+{% set i = 1 %} 
 {% for session in sessions %}
+	<h3>Tache n°{{ i }}</h3>
     <li>{{ session.content }}</li>
+    {% set i = i +1 %}
 {% endfor %}
 </ul>
 {% endblock %}

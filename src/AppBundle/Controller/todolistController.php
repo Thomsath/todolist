@@ -17,8 +17,8 @@ class todolistController extends Controller
     public function todolistAction(Request $request)
     {
         $this->get('session')->set('tasks', [new Task('Tache 1', new User(1, 'simon')), new Task('Tache 2', new User(2, 'thomas')), new Task('Tache 3', new User(3, 'gaetan'))]);
-        dump($this->get('session')->get('tasks'));
-        // replace this example code with whatever you need
+        //dump($this->get('session')->get('tasks'));
+
         return $this->render('default/todolist.html.twig', [
             'sessions' => $this->get('session')->get('tasks')
         ]);
