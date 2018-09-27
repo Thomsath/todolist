@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 use AppBundle\Model\Task;
 use AppBundle\Model\User;
@@ -23,7 +24,18 @@ class todolistController extends Controller
             'sessions' => $this->get('session')->get('tasks')
         ]);
     }
+    
 
+    /**
+     * @Route("/todolist/edit/{id}", name="edit")
+     */
 
+    public function editTask($id, Request $request) {
+        $task = $this->get('session')->get('tasks')[$id]->getContent();        
+        return $this->render('default/todolist_edit.html.twig', [ 
+            'id' => $id,
+            'tasks' => $task
+        ]);
+    }
 
 }

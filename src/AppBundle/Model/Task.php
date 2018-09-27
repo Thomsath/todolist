@@ -6,7 +6,7 @@ class Task {
 
 	private $content;
 	private $user;
-	
+
 	function __construct($Ncontent, $Nuser) {
 		$this->content = $Ncontent;
 		$this->user = $Nuser;
@@ -16,11 +16,16 @@ class Task {
 		return $this->content;
 	}
 
-	public function getUser() {
+	public function getTaskUser() {
 		return $this->user;
 	}
 
 	public function setContent($Ncontent) {
 		return $this->content = $Ncontent;
 	}
+
+	public function getUser() {
+		return $this->user;
+	}
+
 }
