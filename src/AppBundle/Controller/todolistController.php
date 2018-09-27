@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use AppBundle\Model\Task;
 use AppBundle\Model\User;
@@ -31,10 +33,18 @@ class todolistController extends Controller
      */
 
     public function editTask($id, Request $request) {
-        $task = $this->get('session')->get('tasks')[$id]->getContent();        
+       $taskContent = $this->get('session')->get('tasks')[$id]->getContent(); 
+        $task = new Task('Tache 1', 'user 1');
+               $form = $this->createFormBuilder($task)
+            ->add('content', TextType::class)
+            ->add('save', SubmitType::class, array('label' => 'Edit Task'))
+            ->getForm();
+
         return $this->render('default/todolist_edit.html.twig', [ 
             'id' => $id,
-            'tasks' => $task
+            'tasks' => $task,
+            'taskContent' => $taskContent,
+            'form' => $form->createView()
         ]);
     }
 
