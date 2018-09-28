@@ -19,7 +19,7 @@ class todolistController extends Controller
      */
     public function todolistAction(Request $request)
     {
-        $this->get('session')->set('tasks', [new Task('Tache 1', new User(1, 'simon'), 'Titre tache 1'), new Task('Tache 2', new User(2, 'thomas'), 'Titre tache 2'), new Task('Tache 3', new User(3, 'gaetan'), 'Titre tache 3')]);
+       //this->get('session')->set('tasks', [new Task('Tache 1', new User(1, 'simon'), 'Titre tache 1'), new Task('Tache 2', new User(2, 'thomas'), 'Titre tache 2'), new Task('Tache 3', new User(3, 'gaetan'), 'Titre tache 3')]);
         //dump($this->get('session')->get('tasks'));
 
         return $this->render('default/todolist.html.twig', [
@@ -56,6 +56,8 @@ class todolistController extends Controller
             $task->setContent($task->getContent());
             $task->setTitle($task->getTitle());
 
+            return $this->redirectToRoute('todolist');
+
         }
         return $this->render('default/todolist_edit.html.twig', [ 
             'id' => $id,
@@ -63,8 +65,19 @@ class todolistController extends Controller
             'form' => $form->createView(),
             'taskUserName' => $taskUserName,
             'taskUserId' => $taskUserId,
-            'taskTitle' => $taskTitle
+            'taskTitle' => $taskTitle,
         ]);
+    }
+     /**
+     * @Route("/todolist/delete/{id}", name="delete")
+     */
+
+    public function removeTask($id, Request $request) {
+       
+        unset($this->get('session')->get('tasks')[0]);
+        dump($this->get('session')->get('tasks')[0]);
+       // dump($_SESSION);
+        die;
     }
 
 }

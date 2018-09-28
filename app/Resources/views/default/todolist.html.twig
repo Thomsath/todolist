@@ -1,12 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+	{% include 'default/heading.html.twig' %}
 <ul>
-{% set i = 1 %} 
+
+{% set i = 0 %} 
 {% for session in sessions %}
 	<h3>Tache n°{{ i }}</h3>
+	<h4>{{ session.title }}</h4>
     <li>{{ session.content }}</li>
-    <a href="{{ path('edit', {'id': i } ) }}">dsds</a>
+    <a href="{{ path('edit', {'id': i } ) }}">Editer</a>
+    <a href="{{ path('edit', {'id': i } ) }}">Supprimer</a>
     {% set i = i +1 %}
 {% endfor %}
 </ul>
