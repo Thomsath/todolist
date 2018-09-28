@@ -6,10 +6,12 @@ class Task {
 
 	private $content;
 	private $user;
+	private $title;
 
-	function __construct($Ncontent, $Nuser) {
+	function __construct($Ncontent, $Nuser, $nTitle) {
 		$this->content = $Ncontent;
 		$this->user = $Nuser;
+		$this->title = $nTitle;
 	}
 
 	public function getContent() {
@@ -28,4 +30,11 @@ class Task {
 		return $this->user;
 	}
 
+	public function getTitle() {
+		return $this->title;
+	}
+
+	public function setTitle($nTitle) {
+		return $this->title = $nTitle;
+	}
 }

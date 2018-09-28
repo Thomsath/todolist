@@ -3,13 +3,15 @@
 namespace AppBundle\Model;
 
 class User { 
-
-	private $name;
+	
 	private $id;
+	private $name;
+	
 
-	function __construct($Nname, $nID) {
-		$this->name = $Nname;
+	function __construct($nID, $nName) {
 		$this->id = $nID;
+		$this->name = $nName;
+		
 	}
 
 	public function getName() {
