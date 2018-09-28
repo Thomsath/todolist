@@ -6,7 +6,9 @@
 {% for session in sessions %}
 	<h3>Tache n°{{ i }}</h3>
     <li>{{ session.content }}</li>
+    <a href="{{ path('edit', {'id': i } ) }}">dsds</a>
     {% set i = i +1 %}
 {% endfor %}
 </ul>
+
 {% endblock %}
