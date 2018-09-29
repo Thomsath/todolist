@@ -74,7 +74,7 @@ class todolistController extends Controller
             $task->setContent($task->getContent());
             $task->setTitle($task->getTitle());
             $task->setPriority($task->getPriority());
-        
+
             $task->setisDone($task->getisDone());
 
             return $this->redirectToRoute('todolist');
@@ -113,11 +113,12 @@ class todolistController extends Controller
      * @Route("/todolist/add", name="add_task")
      */
     public function addTask(Request $request) {
-
-        $tasktoAdd = new Task(0,0,0,0,0);
+        $sessions = $this->get('session')->get('tasks');
+        end($sessions);
+        $lastSessionKey = key($sessions) + 1;
+        $tasktoAdd = new Task($lastSessionKey, NULL, NULL, NULL, NULL);
 
         $formAdd = $this->createFormBuilder($tasktoAdd)
-        ->add('Id', IntegerType::class)
         ->add('Title', TextType::class)
         ->add('content', TextType::class)
         ->add('user', TextType::class)
@@ -135,8 +136,6 @@ class todolistController extends Controller
         if ($formAdd->isSubmitted() && $formAdd->isValid()) {
            
             $task = $formAdd->getData();
-
-            $task->setId($task->getId());
             $task->setTitle($task->getTitle());
             $task->setContent($task->getContent());
             $userAdd = new User (rand(1, 1200), $task->getUser());
@@ -176,7 +175,6 @@ class todolistController extends Controller
      */
     public function showUsers(Request $request) {
         $tasks = $this->get('session')->get('tasks');
-
         return $this->render('default/users.html.twig', [
             'tasks' => $tasks
         ]);
@@ -185,10 +183,9 @@ class todolistController extends Controller
      * @Route("/users/add", name="add_user")
      */
     public function addUser(Request $request) {
-        $userToAdd = new User(0,0);
+        $userToAdd = new User(rand(0, 15555), NULL);
 
         $formAdd = $this->createFormBuilder($userToAdd)
-        ->add('Id', IntegerType::class)
         ->add('Name', TextType::class)
         ->add('save', SubmitType::class, array('label' => 'Ajouter'))
         ->getForm();
@@ -196,10 +193,19 @@ class todolistController extends Controller
         $formAdd->handleRequest($request);
 
         if ($formAdd->isSubmitted() && $formAdd->isValid()) {
- die;
-            $user = $formAdd->getData();  
-            dump($user);
+
+            $userToAdd = $formAdd->getData();  
+            $userToAdd->setId($userToAdd->getId());
+            $userToAdd->setName($userToAdd->getName());
            
+            $taskToUser = new Task(NULL, NULL, $userToAdd, NULL, NULL);
+            $sessionArr = $this->get('session')->get('tasks');
+            
+            array_push($sessionArr, $taskToUser);
+
+            // On réasigne le tableau modifié dans la session
+            $this->get('session')->set('tasks', $sessionArr);
+            return $this->redirectToRoute('users');
         }
 
         return $this->render('default/users_add.html.twig', [

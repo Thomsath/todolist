@@ -18,8 +18,12 @@ class User {
 		return $this->name;
 	}
 
-	public function getID() {
+	public function getId() {
 		return $this->id;
+	}
+
+	public function setId($Nid) {
+		return $this->id = $Nid;
 	}
 
 	public function setName($Nname) {

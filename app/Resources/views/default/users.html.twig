@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	{% include 'default/heading.html.twig' %}
+	<ul class="list-group">
+		<h1>Utilisateurs </h1>
+	{% for task in tasks %}
+		
+		<li class="list-group-item">
+			{{ task.user.name }}
+		</li>
+		
+	{% endfor %}
+	<a href="{{ path('add_user') }}">Ajouter</a>
+	</ul>
+{% endblock %}

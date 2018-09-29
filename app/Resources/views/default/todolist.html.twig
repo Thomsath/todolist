@@ -4,7 +4,9 @@
 	{% include 'default/heading.html.twig' %}
 {% set i = 0 %} 
 <div class="container">
-	<a href="{{ path('add_task') }}">Ajouter</a>
+	<a href="{{ path('add_task') }}">Ajouter une tâche</a>
+	<a href="{{ path('add_user') }}">Ajouter un utilisateur</a>
+	<a href="{{ path('users') }}">Liste utilisateurs</a>
 	<ul class="list-group">
 		<!-- Code a refactorer -->
 		{% for session in sessions %}
