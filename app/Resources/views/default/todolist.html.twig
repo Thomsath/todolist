@@ -2,17 +2,38 @@
 
 {% block body %}
 	{% include 'default/heading.html.twig' %}
-<ul>
-
 {% set i = 0 %} 
-{% for session in sessions %}
-	<h3>Tache n°{{ i }}</h3>
-	<h4>{{ session.title }}</h4>
-    <li>{{ session.content }}</li>
-    <a href="{{ path('edit', {'id': i } ) }}">Editer</a>
-    <a href="{{ path('edit', {'id': i } ) }}">Supprimer</a>
-    {% set i = i +1 %}
-{% endfor %}
-</ul>
+<div class="container">
+	<a href="{{ path('add') }}">Ajouter</a>
+	<ul class="list-group">
+		
+		{% for session in sessions %}
+	
+			{% if session.priority == 1 %}
+				<li class="list-group-item list-group-item-success">
+					<h3>Tache ID : {{ session.id }}</h3>
+					<h4>{{ session.title }}</h4>
+					<p>Par <b>{{ session.user.name }}</b> </p>
+				    {{ session.content }}
+				    <a href="{{ path('edit', {'id': array_keys[i] } ) }}">Editer</a>
+				    <a href="{{ path('delete', {'id': array_keys[i] } ) }}">Supprimer</a>
+				</li>
+			{% else %}
+					<li class="list-group-item">
+						<h3>Tache ID : {{ session.id }}</h3>
+						<h4>{{ session.title }}</h4>
+						<p>Par <b>{{ session.user.name }}</b> </p>
+					    {{ session.content }}
+					    <a href="{{ path('edit', {'id': i } ) }}">Editer</a>
+					    <a href="{{ path('delete', {'id': i } ) }}">Supprimer</a>
+					</li>
+		    {% endif %}
+		    {% set i = i +1 %}
+
+		{% endfor %}
+	</ul>
+
+</div>
+
 
 {% endblock %}

@@ -19,7 +19,8 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-         $this->get('session')->set('tasks', [new Task('Tache 0', new User(1, 'simon'), 'Titre tache 0'), new Task('Tache 1', new User(2, 'thomas'), 'Titre tache 1'), new Task('Tache 2', new User(3, 'gaetan'), 'Titre tache 2')]);
+        // Task excepted Task(ID, Content, User, Title, Priority)
+         $this->get('session')->set('tasks', [new Task(1, 'Tache 0', new User(1, 'simon'), 'Titre tache 0', 1), new Task(2, 'Tache 1', new User(2, 'thomas'), 'Titre tache 1', 0), new Task(3, 'Tache 2', new User(3, 'gaetan'), 'Titre tache 2', 1)]);
 
          return $this->redirectToRoute('todolist');
         // replace this example code with whatever you need
