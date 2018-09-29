@@ -9,6 +9,7 @@ class Task {
 	private $_title;
 	private $_id;
 	private $_priority;
+	private $_isDone;
 
 	function __construct($Nid, $Ncontent, $Nuser, $nTitle, $Nprio) {
 		$this->_id = $Nid;
@@ -38,6 +39,10 @@ class Task {
 		return $this->_priority;
 	}
 
+	public function getisDone() {
+		return $this->_isDone;
+	}
+
 	public function setTitle($nTitle) {
 		return $this->_title = $nTitle;
 	}
@@ -56,6 +61,10 @@ class Task {
 
 	public function setPriority($Nprio) {
 		return $this->_priority = $Nprio;
+	}
+
+	public function setisDone($NisDone) {
+		return $this->_isDone = $NisDone;
 	}
 
 }
