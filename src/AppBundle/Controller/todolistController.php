@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 use AppBundle\Model\Task;
 use AppBundle\Model\User;
@@ -18,12 +19,11 @@ use AppBundle\Model\User;
 class todolistController extends Controller
 {
     /**
-     * @Route("/todolist", name="todolist")
+     * @Route("/todolist/", name="todolist")
      */
     public function todolistAction(Request $request)
     {
        //this->get('session')->set('tasks', [new Task('Tache 1', new User(1, 'simon'), 'Titre tache 1'), new Task('Tache 2', new User(2, 'thomas'), 'Titre tache 2'), new Task('Tache 3', new User(3, 'gaetan'), 'Titre tache 3')]);
-
 
         return $this->render('default/todolist.html.twig', [
             'sessions' => $this->get('session')->get('tasks'),
@@ -51,10 +51,14 @@ class todolistController extends Controller
             ->add('Id', IntegerType::class)
             ->add('content', TextType::class)
             ->add('Title', TextType::class)
-             ->add('priority', ChoiceType::class, array(
+            ->add('isDone', CheckboxType::class, array(
+                    'label'    => 'Faite',
+                    'required' => false,
+                ))
+            ->add('priority', ChoiceType::class, array(
                 'choices' => array(
-                    'Prioritaire' => 1,
-                    'Non prioritaire' => 0,
+                    'Prioritaire' => true,
+                    'Non prioritaire' => false,
                 ),
                 ))
             ->add('save', SubmitType::class, array('label' => 'Edit Task'))
@@ -70,6 +74,8 @@ class todolistController extends Controller
             $task->setContent($task->getContent());
             $task->setTitle($task->getTitle());
             $task->setPriority($task->getPriority());
+        
+            $task->setisDone($task->getisDone());
 
             return $this->redirectToRoute('todolist');
 
@@ -104,9 +110,8 @@ class todolistController extends Controller
     }
 
     /**
-     * @Route("/todolist/add", name="add")
+     * @Route("/todolist/add", name="add_task")
      */
-
     public function addTask(Request $request) {
 
         $tasktoAdd = new Task(0,0,0,0,0);
@@ -153,4 +158,53 @@ class todolistController extends Controller
         ]);
     }
 
-}
+    /**
+     * @Route("/todolist/done/{id}", name="done")
+     */
+
+    public function isDone($id, Request $request) {
+
+        $taskDone = $this->get('session')->get('tasks')[$id];
+        $taskDone->setisDone(true);
+        // dump( $this->get('session')->get('tasks')[$id]);
+        // die;
+        return $this->redirectToRoute('todolist');
+    }
+
+    /**
+     * @Route("/users/", name="users")
+     */
+    public function showUsers(Request $request) {
+        $tasks = $this->get('session')->get('tasks');
+
+        return $this->render('default/users.html.twig', [
+            'tasks' => $tasks
+        ]);
+    }
+    /**
+     * @Route("/users/add", name="add_user")
+     */
+    public function addUser(Request $request) {
+        $userToAdd = new User(0,0);
+
+        $formAdd = $this->createFormBuilder($userToAdd)
+        ->add('Id', IntegerType::class)
+        ->add('Name', TextType::class)
+        ->add('save', SubmitType::class, array('label' => 'Ajouter'))
+        ->getForm();
+
+        $formAdd->handleRequest($request);
+
+        if ($formAdd->isSubmitted() && $formAdd->isValid()) {
+ die;
+            $user = $formAdd->getData();  
+            dump($user);
+           
+        }
+
+        return $this->render('default/users_add.html.twig', [
+            'formAddUser' => $formAdd->createView()
+        ]);
+
+    }
+}   
