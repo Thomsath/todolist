@@ -7,32 +7,36 @@
 	<a href="{{ path('add_task') }}">Ajouter une tâche</a>
 	<a href="{{ path('add_user') }}">Ajouter un utilisateur</a>
 	<a href="{{ path('users') }}">Liste utilisateurs</a>
-	<ul class="list-group">
-		<!-- Code a refactorer -->
-		{% for session in sessions %}
-	
-			{% if session.priority == 1 %}
-				<li class="list-group-item list-group-item-success">
-			{% else %}
-				<li class="list-group-item">
-			{% endif %}
-					{% if session.isDone == true %}
-						<i class="fas fa-check-circle"></i>
-					{% endif %}
+
+		<ul class="list-group">
+			<!-- Code a refactorer -->
+			{% for session in sessions %}
+
+				{% if session.priority == 1 %}
+					<li class="list-group-item list-group-item-success">
+				{% else %}
+					<li class="list-group-item">
+				{% endif %}
+
+				{% if session.isDone == true %}
+					<i class="fas fa-check-circle"></i>
+				{% else %}
+					<a href="{{ path('done', {'id': array_keys[i] } ) }}"><i class="far fa-circle"></i></a>
+				{% endif %}
+					<div class="content">
 						<h3>Tache ID : {{ session.id }}</h3>
 						<h4>{{ session.title }}</h4>
 						<p>Par <b>{{ session.user.name }}</b> </p>
-					    {{ session.content }}
-					    <a href="{{ path('edit', {'id': array_keys[i] } ) }}">Editer</a>
-					    <a href="{{ path('delete', {'id': array_keys[i] } ) }}">Supprimer</a>
-				    	<a href="{{ path('done', {'id': array_keys[i] } ) }}">Faite</a>
-					</li>
-		    
-		    {% set i = i +1 %}
+						{{ session.content }}
+						<a href="{{ path('edit', {'id': array_keys[i] } ) }}">Editer</a>
+						<a href="{{ path('delete', {'id': array_keys[i] } ) }}">Supprimer</a>
+					</div>
+						</li>
+			    	
+			    {% set i = i +1 %}
 
-		{% endfor %}
-	</ul>
-
+			{% endfor %}
+		</ul>
 </div>
 
 
