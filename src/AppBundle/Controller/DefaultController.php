@@ -20,9 +20,13 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         // Task excepted Task(ID, Content, User, Title, Priority)
-         $this->get('session')->set('tasks', [new Task(0, 'Tache 0', new User(0, 'simon'), 'Titre tache 0', 1), new Task(1, 'Tache 1', new User(1, 'thomas'), 'Titre tache 1', 0), new Task(2, 'Tache 2', new User(2, 'gaetan'), 'Titre tache 2', 1)]);
+         $this->get('session')->set('tasks',[
+            new Task(1, 'Tache 0', new User(1, 'simon'), 'Titre tache 0', 1),
+            new Task(2, 'Tache 1', new User(2, 'thomas'), 'Titre tache 1', 0),
+            new Task(3, 'Tache 2', new User(3, 'gaetan'), 'Titre tache 2', 1)
+        ]);
 
-         return $this->redirectToRoute('todolist');
+        return $this->redirectToRoute('todolist');
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [
             'sessions' => $this->get('session')->get('tasks')
