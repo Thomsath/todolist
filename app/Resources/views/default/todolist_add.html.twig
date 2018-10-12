@@ -3,7 +3,32 @@
 {% block body %}
 	{% include 'default/heading.html.twig' %}
 	
-	{{ form_start(form) }}
+	{# {{ form_start(form) }}
 	{{ form_widget(form) }}
-	{{ form_end(form) }}
+	{{ form_end(form) }} #}
+	<form method="post" action="addTask">
+		<p>
+			<label for="title">Title</label>
+			<input type="text" value="title" id="title">
+		</p>
+		<p>
+			<label for="content">Contenu</label>
+			<textarea value="content" id="content"></textarea>
+		</p>
+		<p>
+			<label for="user">User</label>
+			<select value="user" id="user">
+                {% for task in tasks %}
+
+					<option value="{{ task.user.name }}">
+                        {{ task.user.name }}
+					</option>
+
+                {% endfor %}
+			</select>
+		</p>
+		<p><input type="submit" value="Send" /></p>
+	
+	</form>
+
 {% endblock %}

@@ -110,51 +110,60 @@ class todolistController extends Controller
     }
 
     /**
-     * @Route("/todolist/add", name="add_task")
+     * @Route("/todolist/add_task", name="form_task")
      */
+    public function formTask(Request $request) {
+      $tasks = $this->get('session')->get('tasks');
+      return $this->render('default/todolist_add.html.twig', [
+        'tasks' => $tasks
+      ]);
+    }
+
+  /**
+   * @Route("/todolist/addTask", name="add_task")
+   */
+
     public function addTask(Request $request) {
-        $sessions = $this->get('session')->get('tasks');
-        end($sessions);
-        $lastSessionKey = key($sessions) + 1;
-        $tasktoAdd = new Task($lastSessionKey, NULL, NULL, NULL, NULL);
+      $sessions = $this->get('session')->get('tasks');
+      end($sessions);
+      $lastSessionKey = key($sessions) + 1;
+      $tasktoAdd = new Task($lastSessionKey, NULL, NULL, NULL, NULL);
 
-        $formAdd = $this->createFormBuilder($tasktoAdd)
-        ->add('Title', TextType::class)
-        ->add('content', TextType::class)
-        ->add('user', TextType::class)
-        ->add('priority', ChoiceType::class, array(
-        'choices' => array(
-            'Prioritaire' => 1,
-            'Non prioritaire' => 0,
-        ),
-        ))
-        ->add('save', SubmitType::class, array('label' => 'Ajouter'))
-        ->getForm();
+      // $formAdd = $this->createFormBuilder($tasktoAdd)
+        // ->add('Title', TextType::class)
+        // ->add('content', TextType::class)
+        // ->add('user', TextType::class)
+        // ->add('priority', ChoiceType::class, array(
+        // 'choices' => array(
+        //     'Prioritaire' => 1,
+        //     'Non prioritaire' => 0,
+        // ),
+        // ))
+        // ->add('save', SubmitType::class, array('label' => 'Ajouter'))
+        // ->getForm();
 
-        $formAdd->handleRequest($request);
+        // $formAdd->handleRequest($request);
 
-        if ($formAdd->isSubmitted() && $formAdd->isValid()) {
+        // if ($formAdd->isSubmitted() && $formAdd->isValid()) {
            
-            $task = $formAdd->getData();
-            $task->setTitle($task->getTitle());
-            $task->setContent($task->getContent());
-            $userAdd = new User (rand(1, 1200), $task->getUser());
-            $task->setUser($userAdd);
-           // $this->get('session')->a('tasks', [new Task('Tache 4', new User(1, 'simon'), 'Titre tache 4')]);
-            $sessionArr = $this->get('session')->get('tasks');
+        //     $task = $formAdd->getData();
+        //     $task->setTitle($task->getTitle());
+        //     $task->setContent($task->getContent());
+        //     $userAdd = new User (rand(1, 1200), $task->getUser());
+        //     $task->setUser($userAdd);
+        //    // $this->get('session')->a('tasks', [new Task('Tache 4', new User(1, 'simon'), 'Titre tache 4')]);
+        //     $sessionArr = $this->get('session')->get('tasks');
             
-            array_push($sessionArr, $tasktoAdd);
+        //     array_push($sessionArr, $tasktoAdd);
 
-            // On réasigne le tableau modifié dans la session
-            $this->get('session')->set('tasks', $sessionArr);
+        //     // On réasigne le tableau modifié dans la session
+        //     $this->get('session')->set('tasks', $sessionArr);
             
-            return $this->redirectToRoute('todolist');
+        //     return $this->redirectToRoute('todolist');
 
-        }
+        // }
 
-        return $this->render('default/todolist_add.html.twig', [ 
-            'form' => $formAdd->createView()
-        ]);
+      return $this->redirectToRoute('todolist');
     }
 
     /**
