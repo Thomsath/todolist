@@ -75,3 +75,16 @@ Enjoy!
 [13]: https://symfony.com/doc/current/bundles/SensioGeneratorBundle/index.html
 [14]: https://symfony.com/doc/current/setup/built_in_web_server.html
 [15]: https://symfony.com/doc/current/setup.html
+
+
+#Launch server
+php bin/console server:run
+
+#Create database
+php bin/console doctrine:database:create
+
+#Update
+php bin/console doctrine:schema:update
+
+#Doctrine generate entity
+php bin/console doctrine:generate:entity
