@@ -23,7 +23,7 @@ class TaskController extends Controller
 
     public function indexAction(Request $request, TaskLoader $taskloader) {
 
-    	$tasks = $taskloader->findAll();
+    	$tasks = $taskloader->findAllTasks();
 
     	return $this->render('task/index.html.twig', [
             'tasks' => $tasks

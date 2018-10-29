@@ -5,7 +5,9 @@
 {% block body %}
 <a href="{{ path('newTask') }}">Ajouter une tâche</a>
 {% for task in tasks %}
-	{{ task.title }}
+	<div>
+		<p>{{ task.title }}</p>
+	</div>
 {% endfor %}
 
 {% endblock %}
