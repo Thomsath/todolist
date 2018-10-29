@@ -1,9 +1,6 @@
 <?php
-
 namespace AppBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Task
  *
@@ -20,41 +17,35 @@ class Task
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
      */
     private $title;
-
     /**
      * @var string
      *
      * @ORM\Column(name="content", type="string", length=255)
      */
     private $content;
-
     /**
      * @var bool
      *
      * @ORM\Column(name="priority", type="boolean")
      */
     private $priority;
-
     /**
      * @var bool
      *
      * @ORM\Column(name="done", type="boolean")
      */
     private $done;
-
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="task")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="task", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
-
     /**
      * Get id.
      *
@@ -64,7 +55,6 @@ class Task
     {
         return $this->id;
     }
-
     /**
      * Set title.
      *
@@ -75,10 +65,8 @@ class Task
     public function setTitle($title)
     {
         $this->title = $title;
-
         return $this;
     }
-
     /**
      * Get title.
      *
@@ -88,7 +76,6 @@ class Task
     {
         return $this->title;
     }
-
     /**
      * Set content.
      *
@@ -99,10 +86,8 @@ class Task
     public function setContent($content)
     {
         $this->content = $content;
-
         return $this;
     }
-
     /**
      * Get content.
      *
@@ -112,7 +97,6 @@ class Task
     {
         return $this->content;
     }
-
     /**
      * Set priority.
      *
@@ -123,10 +107,8 @@ class Task
     public function setPriority($priority)
     {
         $this->priority = $priority;
-
         return $this;
     }
-
     /**
      * Get priority.
      *
@@ -136,7 +118,6 @@ class Task
     {
         return $this->priority;
     }
-
     /**
      * Set done.
      *
@@ -147,10 +128,8 @@ class Task
     public function setDone($done)
     {
         $this->done = $done;
-
         return $this;
     }
-
     /**
      * Get done.
      *
@@ -159,5 +138,29 @@ class Task
     public function getDone()
     {
         return $this->done;
+    }
+
+    /**
+     * Set user.
+     *
+     * @param \App\Entity\User $user
+     *
+     * @return Task
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user.
+     *
+     * @return \App\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
