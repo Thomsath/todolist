@@ -3,7 +3,7 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-
+<a href="{{ path('newTask') }}">Ajouter une tâche</a>
 {% for task in tasks %}
 	{{ task.title }}
 {% endfor %}
