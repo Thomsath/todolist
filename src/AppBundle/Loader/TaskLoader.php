@@ -15,7 +15,7 @@ class TaskLoader {
 		$this->taskRepo = $entityManager->getRepository(Task::class);
 	}
 
-	public function findAll() {
+	public function findAllTasks() {
 		return $this->taskRepo->findAll();
 	}
 
