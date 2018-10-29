@@ -50,7 +50,7 @@ class Task
     private $done;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="task")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="task")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

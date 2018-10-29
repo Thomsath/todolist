@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+{% for task in tasks %}
+	{{ task.title }}
+{% endfor %}
+
+{% endblock %}

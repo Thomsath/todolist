@@ -10,4 +10,10 @@ namespace AppBundle\Repository;
  */
 class TaskRepository extends \Doctrine\ORM\EntityRepository
 {
+
+	public function findById($id) {
+		$tasks = $this->getDoctrine()
+	    	->getRepository(Task::class)
+	    	->find($id);
+	}	
 }
