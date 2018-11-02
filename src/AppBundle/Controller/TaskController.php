@@ -14,8 +14,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use AppBundle\Entity\Task;
 use AppBundle\Entity\User;
 
-use AppBundle\Loader\TaskLoader;
+use AppBundle\Loader\TaskManager;
 use AppBundle\Loader\UserLoader;
+
 
 class TaskController extends Controller
 {
@@ -23,13 +24,24 @@ class TaskController extends Controller
    * @Route("/", name="homepage")
    */
 
-  public function indexAction(Request $request, TaskLoader $taskloader) {
+  public function indexAction(Request $request, TaskManager $taskManager) {
 
-    $tasks = $taskloader->findAllTasks();
+  $tasks = $taskManager->findAllTasks();
 
-    return $this->render('task/index.html.twig', [
-      'tasks' => $tasks,
+  return $this->render('task/index.html.twig', [
+        'tasks' => $tasks,
     ]);
+  }
+
+  /**
+   * @Route ("/deleteTask/{id}", name="deleteTask")
+   */
+
+  public function deleteTask($id, Request $request, TaskManager $taskManager) {
+
+    $tasks =$taskManager->deleteTaskById($id);
+
+    return $this->redirectToRoute('homepage');
   }
 
   /**
@@ -45,7 +57,7 @@ class TaskController extends Controller
 
     // ['thomas' => 'thomas']
     foreach($users as $user) {
-        $selectUsers[$user->getName()] = $user;
+      $selectUsers[$user->getName()] = $user;
     }
 
     $form = $this->createFormBuilder($task)
@@ -68,7 +80,7 @@ class TaskController extends Controller
       $TaskManager->persist($task);
       $TaskManager->flush();
 
-        return $this->redirectToRoute('homepage');
+      return $this->redirectToRoute('homepage');
     }
     return $this->render('task/newTask.html.twig', array(
       'form' => $form->createView(),
