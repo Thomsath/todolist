@@ -16,4 +16,5 @@ class TaskRepository extends \Doctrine\ORM\EntityRepository
 	    	->getRepository(Task::class)
 	    	->find($id);
 	}	
+
 }
