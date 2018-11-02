@@ -7,6 +7,14 @@
 {% for task in tasks %}
 	<div>
 		<p>{{ task.title }}</p>
+		<p>{{ task.content }}</p>
+
+		{% if( task.done == 0) %}
+			<b>Tache non réalisée </b>
+		{% else %}
+			<b>Tache réalisée </b>
+		{% endif %}
+	{{ task.user.getName() }}
 	</div>
 {% endfor %}
 

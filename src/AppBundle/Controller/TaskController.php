@@ -23,14 +23,12 @@ class TaskController extends Controller
      * @Route("/", name="homepage")
      */
 
-    public function indexAction(Request $request, TaskLoader $taskloader, UserLoader $userloader) {
+    public function indexAction(Request $request, TaskLoader $taskloader) {
 
     	$tasks = $taskloader->findAllTasks();
 
-        $users = $userloader->findAllUsers();
-
     	return $this->render('task/index.html.twig', [
-            'tasks' => $tasks
+            'tasks' => $tasks,
         ]);
     }
 
@@ -49,7 +47,7 @@ class TaskController extends Controller
         foreach($users as $user) {
             $selectUsers[$user->getName()] = $user;
         }
-dump($selectUsers);
+
         $form = $this->createFormBuilder($task)
     			->add('title', TextType::class, array('required' => true,))
     			->add('content', TextType::class, array('required' => true,))
