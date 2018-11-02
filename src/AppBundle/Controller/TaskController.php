@@ -19,59 +19,59 @@ use AppBundle\Loader\UserLoader;
 
 class TaskController extends Controller
 {
-    /**
-     * @Route("/", name="homepage")
-     */
+  /**
+   * @Route("/", name="homepage")
+   */
 
-    public function indexAction(Request $request, TaskLoader $taskloader) {
+  public function indexAction(Request $request, TaskLoader $taskloader) {
 
-    	$tasks = $taskloader->findAllTasks();
+    $tasks = $taskloader->findAllTasks();
 
-    	return $this->render('task/index.html.twig', [
-            'tasks' => $tasks,
-        ]);
+    return $this->render('task/index.html.twig', [
+      'tasks' => $tasks,
+    ]);
+  }
+
+  /**
+   * @Route ("/newTask", name="newTask")
+   */
+
+  public function addTask(Request $request, UserLoader $userloader) {
+
+    $task = new Task();
+
+    $users = $userloader->findAllUsers();
+    $selectUsers = [];
+
+    // ['thomas' => 'thomas']
+    foreach($users as $user) {
+        $selectUsers[$user->getName()] = $user;
     }
 
-    /**
-     * @Route ("/newTask", name="newTask")
-     */
+    $form = $this->createFormBuilder($task)
+      ->add('title', TextType::class, array('required' => true,))
+      ->add('content', TextType::class, array('required' => true,))
+      ->add('priority', CheckboxType::class, array('required' => false,))
+      ->add('done', CheckboxType::class, array('required' => false,))
+      ->add('user', ChoiceType::class, array(
+          'choices' => $selectUsers,
+      ))
+      ->add('save', SubmitType::class, array('label' => 'Ajouter la tache'))
+      ->getForm();
 
-    public function addTask(Request $request, UserLoader $userloader) {
+    $form->handleRequest($request);
 
-    	$task = new Task();
+    if($form->isSubmitted() && $form->isValid()) {
+      $form->getData();
 
-        $users = $userloader->findAllUsers();
-        $selectUsers = [];
-        
-        // ['thomas' => 'thomas']
-        foreach($users as $user) {
-            $selectUsers[$user->getName()] = $user;
-        }
+      $TaskManager = $this->getDoctrine()->getManager();
+      $TaskManager->persist($task);
+      $TaskManager->flush();
 
-        $form = $this->createFormBuilder($task)
-    			->add('title', TextType::class, array('required' => true,))
-    			->add('content', TextType::class, array('required' => true,))
-    			->add('priority', CheckboxType::class, array('required' => false,))
-    			->add('done', CheckboxType::class, array('required' => false,))
-                ->add('user', ChoiceType::class, array(
-                    'choices' => $selectUsers,
-                ))
-                ->add('save', SubmitType::class, array('label' => 'Ajouter la tache'))
-    			->getForm();
- 		
- 		$form->handleRequest($request);
-		
-		if($form->isSubmitted() && $form->isValid()) {
-            $form->getData();
-
-            $TaskManager = $this->getDoctrine()->getManager();
-		    $TaskManager->persist($task);
-            $TaskManager->flush();
-
-		    return $this->redirectToRoute('homepage');
-		}
-			return $this->render('task/newTask.html.twig', array(
-				'form' => $form->createView(),
-	       ));
+        return $this->redirectToRoute('homepage');
     }
+    return $this->render('task/newTask.html.twig', array(
+      'form' => $form->createView(),
+    ));
+  }
 }
