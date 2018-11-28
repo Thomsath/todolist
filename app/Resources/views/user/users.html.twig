@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+    {% for user in users %}
+        <a href="{{ path('deleteUser', {'id': user.id}) }}">Supprimer l'utilisateur</a>
+        <a href="{{ path('editUser', {'id': user.id}) }}">Modifier l'utilisateur</a>
+        <div>
+            <p>{{ user.name }}</p>
+        </div>
+    {% endfor %}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+{% endblock %}

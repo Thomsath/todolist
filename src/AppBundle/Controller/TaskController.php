@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -16,6 +17,7 @@ use AppBundle\Entity\User;
 
 use AppBundle\Loader\TaskManager;
 use AppBundle\Loader\UserLoader;
+use AppBundle\Loader\TaskLoader;
 
 
 class TaskController extends Controller
@@ -86,4 +88,51 @@ class TaskController extends Controller
       'form' => $form->createView(),
     ));
   }
+
+    /**
+     * @Route ("/editTask/{id}", name="editTask")
+     */
+
+    public function updateTask($id, Request $request, TaskLoader $taskloader)
+    {
+        $task = $taskloader->findOneById($id);
+        $taskName = $task[0]->getTitle();
+        $taskContent = $task[0]->getContent();
+        $taskDone = $task[0]->getDone();
+        $taskPriority = $task[0]->getPriority();
+
+        $taskDone ? $arrTaskDone = array('checked' => 'none') : $arrTaskDone =  array();
+        $taskPriority ? $arrTaskPriority = array('Prioritaire' => true, 'Non prioritaire' => false,) : $arrTaskPriority = array('Non prioritaire' => false, 'Prioritaire' => true);
+
+        $form = $this->createFormBuilder($task[0])
+            ->add('content', TextType::class, array('data' => $taskContent))
+            ->add('Title', TextType::class, array('data' => $taskName))
+            ->add('done', CheckboxType::class, array(
+                'label'    => 'Faite',
+                'required' => false,
+                'attr' => $arrTaskDone,
+            ))
+            ->add('priority', ChoiceType::class, array(
+                'choices' => $arrTaskPriority,
+            ))
+            ->add('save', SubmitType::class, array('label' => 'Edit Task'))
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $task = $form->getData();
+            $TaskManager = $this->getDoctrine()->getManager();
+            $TaskManager->persist($task);
+            $TaskManager->flush();
+
+            return $this->redirectToRoute('homepage');
+
+        }
+
+        return $this->render('task/editTask.html.twig', [
+            'id' => $id,
+            'form' => $form->createView(),
+        ]);
+    }
 }

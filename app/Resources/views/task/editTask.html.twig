@@ -1,14 +1,9 @@
+
 {% extends 'base.html.twig' %}
 
 {% block title %}{% endblock %}
 
 {% block body %}
-
-    {% for user in users %}
-        <div>
-            <p>{{ user.name }}</p>
-        </div>
-    {% endfor %}
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
