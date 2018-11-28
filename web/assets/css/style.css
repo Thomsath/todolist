@@ -11,8 +11,8 @@ a {
 }
 
 .main {
-  width: 600px;
-  max-width: 600px;
+  width: 700px;
+  max-width: 700px;
   font-family: 'Roboto', sans-serif;
   background-color: #eee;
   min-height: 100vh;
@@ -91,4 +91,5 @@ a {
   background-color: #eee;
   color : #262e50;
   text-align: center;
+  margin: 10px 0;
 }

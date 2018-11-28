@@ -3,14 +3,7 @@
 {% block title %}{% endblock %}
     
 {% block body %}
-<div class="nav">
-	<ul class="nav__list">
-		<li class="nav__item"><a href="{{ path('homepage') }}">Toutes les tâches</a></li>
-		<li class="nav__item"><a class="nav__link" href="{{ path('newTask') }}">Ajouter une tâche</a></li>
-		<li class="nav__item"><a class="nav__link" href="{{ path('users') }}">Utilisateurs</a></li>
-		<li class="nac__item"><a class="nav__link" href="{{ path('sortTaskByUser', {'sortDigit': 1}) }}">Sort par nom d'utilisateur</a></li>
-	</ul>
-</div>
+<a class="nav__link" href="{{ path('sortTaskByUser', {'sortDigit': 1}) }}">Tri par user</a>
 <div class="tasks">
 <ul class="tasks__list">
 {% for task in tasks %}
