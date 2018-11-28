@@ -29,7 +29,7 @@ class User
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Task::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Task::class, mappedBy="user", cascade={"remove"})
      */
     private $task;
 

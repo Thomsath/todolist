@@ -25,4 +25,10 @@ class UserLoader {
     );
   }
 
+  public function isUserAlreadyExists($username) {
+      return $this->userRepo->findBy(
+          ['name' => $username]
+      );
+  }
+
 }

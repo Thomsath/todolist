@@ -4,7 +4,9 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-
+    {%  if errors is defined %}
+        {{  errors }}
+    {% endif %}
 	{{ form_start(form) }}
 	{{ form_widget(form) }}
 	{{ form_end(form) }}
