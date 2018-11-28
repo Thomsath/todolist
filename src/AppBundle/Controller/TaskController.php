@@ -90,8 +90,15 @@ class TaskController extends Controller
     $form->handleRequest($request);
 
     if($form->isSubmitted() && $form->isValid()) {
-      $form->getData();
+        if($task->getUser() === null) {
 
+            $errors = "Une tâche doit avoir un utilisateur associé";
+            return $this->render('task/newTask.html.twig', [
+                'errors' => $errors,
+                'form' => $form->createView(),
+            ]);
+        }
+      $form->getData();
       $TaskManager = $this->getDoctrine()->getManager();
       $TaskManager->persist($task);
       $TaskManager->flush();

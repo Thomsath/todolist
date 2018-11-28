@@ -3,7 +3,6 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-
     {% for user in users %}
         <a href="{{ path('deleteUser', {'id': user.id}) }}">Supprimer l'utilisateur</a>
         <a href="{{ path('editUser', {'id': user.id}) }}">Modifier l'utilisateur</a>
@@ -11,6 +10,10 @@
             <p>{{ user.name }}</p>
         </div>
     {% endfor %}
+
+    {%  if errors is defined %}
+        {{  errors }}
+    {% endif %}
 
     {{ form_start(form) }}
     {{ form_widget(form) }}

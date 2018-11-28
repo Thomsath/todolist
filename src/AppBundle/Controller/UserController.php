@@ -26,6 +26,14 @@ class UserController extends Controller
     $form = $this->createForm(UserType::class, $user)->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
+        if($user->getName() === null || $userloader->isUserAlreadyExists($user->getName()) !== [] ) {
+            $errors = "Nom invalide : vide ou déjà prit, désolé !";
+            return $this->render('user/users.html.twig', [
+                'users' => $users,
+                'errors' => $errors,
+                'form' => $form->createView(),
+            ]);
+        }
       $entityManager = $this->getDoctrine()->getManager();
       $entityManager->persist($user);
       $entityManager->flush();
