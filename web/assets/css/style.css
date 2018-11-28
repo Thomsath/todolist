@@ -1,1 +1,94 @@
-  
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,500i,700');
+
+body {
+  display: flex;
+  justify-content: center;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.main {
+  width: 600px;
+  max-width: 600px;
+  font-family: 'Roboto', sans-serif;
+  background-color: #eee;
+  min-height: 100vh;
+}
+
+.main-title {
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+}
+
+.nav {
+  margin: 30px 0;
+}
+
+.nav__list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.nav__link {
+  padding : 12px 20px;
+  background-color: #262e50;
+  border-radius: 3px;
+  color: #eee;
+}
+
+.tasks {
+  margin-top: 20px;
+}
+
+.tasks__list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tasks__item {
+  padding: 20px;
+  background-color: #d0d0d0;
+  display: flex;
+  justify-content: space-between;
+  border-top : 2px solid #262e50;
+}
+
+.tasks__content {
+  color : #262e50;
+}
+
+.tasks__title {
+  margin-top: 0;
+}
+.tasks__name {
+  font-weight: bold;
+}
+
+.tasks__done {
+  font-weight: 400;
+  font-style: italic;
+  margin-bottom: 0;
+}
+
+.tasks__buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.tasks__button {
+  padding: 8px 12px;
+  border-radius: 3px;
+  background-color: #eee;
+  color : #262e50;
+  text-align: center;
+}
