@@ -19,16 +19,6 @@ class TaskManager {
 		$this->entityManager = $entityManager;
 	}
 
-	public function findAllTasks() {
-		return $this->taskRepo->findAll();
-	}
-
-	public function findOneById($id) {
-		return $this->taskRepo->findBy(
-			['id' => $id]
-		);
-	}
-
 	public function deleteTaskById($id) {
         $task = $this->taskRepo->findOneBy(array('id' => $id));
 

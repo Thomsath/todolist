@@ -3,12 +3,15 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-<a href="{{ path('newTask') }}">Ajouter une tâche</a>
+    <a href="{{ path('homepage') }}">Toutes les tâches</a>
+    <a href="{{ path('newTask') }}">Ajouter une tâche</a>
 	<a href="{{ path('users') }}">Utilisateurs</a>
+    <a href="{{ path('sortTaskByUser', {'sortDigit': 1}) }}">Sort par nom d'utilisateur</a>
 {% for task in tasks %}
 	<div>
 		<a href="{{ path('deleteTask', {'id': task.id}) }}">Supprimer la tache</a>
 		<a href="{{ path('editTask', {'id': task.id}) }}">Modifier la tache</a>
+
 		<p>{{ task.title }}</p>
 		<p>{{ task.content }}</p>
 

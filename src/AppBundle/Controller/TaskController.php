@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,14 +27,24 @@ class TaskController extends Controller
    * @Route("/", name="homepage")
    */
 
-  public function indexAction(Request $request, TaskManager $taskManager) {
+  public function indexAction(Request $request, TaskLoader $taskLoader) {
 
-  $tasks = $taskManager->findAllTasks();
-
-  return $this->render('task/index.html.twig', [
-        'tasks' => $tasks,
-    ]);
+      $tasks = $taskLoader->findAllTasks();
+      return $this->render('task/index.html.twig', [
+            'tasks' => $tasks,
+        ]);
   }
+
+    /**
+     * @Route ("/{sortDigit}", name="sortTaskByUser", requirements={"sortDigit"="\d+"})
+     */
+    public function sortTask($sortDigit, Request $request, TaskLoader $taskLoader) {
+        $tasks = $taskLoader->findAllTasks(true);
+//        $sortDigit === 1 ? $tasks = $taskManager->findAllTasks(true): ;
+        return $this->render('task/index.html.twig', [
+            'tasks' => $tasks,
+        ]);
+    }
 
   /**
    * @Route ("/deleteTask/{id}", name="deleteTask")
@@ -61,6 +72,9 @@ class TaskController extends Controller
     foreach($users as $user) {
       $selectUsers[$user->getName()] = $user;
     }
+
+      $user = new User();
+     // $form = $this->createForm(FormType::class, [$selectUsers, $user])->handleRequest($request);
 
     $form = $this->createFormBuilder($task)
       ->add('title', TextType::class, array('required' => true,))

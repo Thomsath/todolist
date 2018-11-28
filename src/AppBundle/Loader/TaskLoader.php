@@ -15,15 +15,21 @@ class TaskLoader {
 		$this->taskRepo = $entityManager->getRepository(Task::class);
 	}
 
-	public function findAllTasks() {
-		return $this->taskRepo->findAll();
-	}
+    public function findAllTasks($user = false) {
+        return $user ? $this->taskRepo->findBy(array(), ['user' => 'DESC']) : $this->taskRepo->findAll();
+    }
 
 	public function findOneById($id) {
 		return $this->taskRepo->findBy(
 			['id' => $id]
 		);
 	}
+
+	public function findTasksByStatus($status) {
+        return $this->taskRepo->findBy(
+            ['done' => $status]
+        );
+    }
 
 }
 	
