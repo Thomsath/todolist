@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
+        <link rel="stylesheet" href="{{ asset('assets/css/normalize.css') }}" />
+    </head>
+    <body>
+        <main class="main">
+            <h1 class="main-title">TODOLIST</h1>
+            <div class="nav">
+            <ul class="nav__list">
+                    <li class="nav__item"><a class="nav__link" href="{{ path('homepage') }}">Toutes les tâches</a></li>
+                    <li class="nav__item"><a class="nav__link" href="{{ path('newTask') }}">Ajouter une tâche</a></li>
+                    <li class="nav__item"><a class="nav__link" href="{{ path('users') }}">Utilisateurs</a></li>
+                </ul>
+            </div>
+            {% block body %}{% endblock %}
+            {% block javascripts %}{% endblock %}
+        </main>
+    </body>
+</html>
