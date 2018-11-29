@@ -1,4 +1,4 @@
-Symfony Standard Edition
+Symfony Standard Edition (Thomas feat Gaetan)
 ========================
 
 **WARNING**: This distribution does not support Symfony 4. See the
