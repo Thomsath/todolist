@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    {%  if errors is defined %}
+        {{  errors }}
+    {% endif %}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+<div class="tasks">
+<ul class="tasks__list">
+    {% for user in users %}
+    <li class="tasks__item">
+		<div class="tasks__content">
+			<h2 class="tasks__title">{{ user.name }}</h2>
+		</div>  
+		<div class="tasks__buttons">
+			<a class="tasks__button" href="{{ path('deleteUser', {'id': user.id}) }}">Supprimer l'utilisateur</a>
+        <a class="tasks__button" href="{{ path('editUser', {'id': user.id}) }}">Modifier l'utilisateur</a>
+		</div>
+    {% endfor %}
+</ul>
+</div>
+
+{% endblock %}
