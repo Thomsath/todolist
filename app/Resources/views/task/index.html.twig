@@ -4,10 +4,11 @@
 {% block body %}
 <a class="nav__link" href="{{ path('sortTaskByUser', {'sortDigit': 1}) }}">Tri par user</a>
 <div class="tasks">
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
-
+	{%  if form is defined %}
+		{{ form_start(form) }}
+		{{ form_widget(form) }}
+		{{ form_end(form) }}
+	{%  endif %}
 	<ul class="tasks__list">
 {% for task in tasks %}
 	<li class="tasks__item">

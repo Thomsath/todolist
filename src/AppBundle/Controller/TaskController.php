@@ -65,9 +65,9 @@ class TaskController extends Controller
       $form = $this->createFormBuilder($task, array('attr' => array('class' => 'formSortTasks')))
           ->add('done', ChoiceType::class, array(
               'choices' => array(
-                'A faire' => 1,
-                'Fait' => 2,
-                'Toutes' => 3,
+                'Les tâches à faire' => 1,
+                'Les tâches réalisées' => 2,
+                'Toutes les tâches' => 3,
               ),
               'attr' => array(
                   'class' => 'SortStatus'
