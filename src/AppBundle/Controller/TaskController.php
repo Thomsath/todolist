@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use AppBundle\Entity\Task;
 use AppBundle\Entity\User;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Loader\TaskManager;
 use AppBundle\Loader\UserLoader;
 use AppBundle\Loader\TaskLoader;
@@ -29,9 +29,59 @@ class TaskController extends Controller
 
   public function indexAction(Request $request, TaskLoader $taskLoader) {
 
+      if($request->request->get('selectValue')) {
+         // $request->request->get('selectValue') == '1' ? $todo = 0 : $todo = 1;
+
+          if($request->request->get('selectValue') == '1') {
+              $todo = 0;
+          } elseif($request->request->get('selectValue') == '2') {
+              $todo = 1;
+          } else {
+              $todo = 3;
+          }
+          if($todo === 0 || $todo === 1) {
+              $tasksFiltered = $taskLoader->findTasksByStatus($todo);
+          } else {
+              $tasksFiltered = $taskLoader->findAllTasks();
+          }
+          foreach($tasksFiltered as $task) {
+
+              $taskArr[$task->getId()]['title'] =  $task->getTitle();
+              $taskArr[$task->getId()]['content'] =  $task->getContent();
+              $taskArr[$task->getId()]['priority'] =  $task->getPriority();
+              $taskArr[$task->getId()]['done'] =  $task->getDone();
+              $taskArr[$task->getId()]['user'] =  $task->getUser()->getName();
+          }
+          if($request->request->get('selectValue')) {
+              $arrData = [
+                  'task' => $taskArr,
+              ];
+              return new JsonResponse($arrData);
+          }
+      }
       $tasks = $taskLoader->findAllTasks();
+
+      $task = new Task();
+      $form = $this->createFormBuilder($task, array('attr' => array('class' => 'formSortTasks')))
+          ->add('done', ChoiceType::class, array(
+              'choices' => array(
+                'A faire' => 1,
+                'Fait' => 2,
+                'Toutes' => 3,
+              ),
+              'attr' => array(
+                  'class' => 'SortStatus'
+              ),
+              'label' => 'Trier par statut'
+          ))
+          ->add('save', SubmitType::class, array('label' => 'Trier'))
+          ->getForm();
+
+      $form->handleRequest($request);
+
       return $this->render('task/index.html.twig', [
             'tasks' => $tasks,
+            'form' => $form->createView()
         ]);
   }
 

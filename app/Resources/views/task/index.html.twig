@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}{% endblock %}
     
 {% block body %}
 <a class="nav__link" href="{{ path('sortTaskByUser', {'sortDigit': 1}) }}">Tri par user</a>
 <div class="tasks">
-<ul class="tasks__list">
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+	<ul class="tasks__list">
 {% for task in tasks %}
 	<li class="tasks__item">
 		<div class="tasks__content">
@@ -21,10 +24,60 @@
 		<div class="tasks__buttons">
 			<a class="tasks__button" href="{{ path('deleteTask', {'id': task.id}) }}">Supprimer la tache</a>
 			<a class="tasks__button" href="{{ path('editTask', {'id': task.id}) }}">Modifier la tache</a>
+			<p class="paragraph">djdjd</p>
 		</div>
 	</li>
 {% endfor %}
 </ul>
 </div>
+	{% block javascripts %}
+		<script>
+			document.getElementsByClassName('nav__link').innerHTML += 'k';
+			jQuery(document).ready( function() {
+			    const list = document.getElementsByClassName('tasks__list');
+                $('form').submit(function (e) {
+                    e.preventDefault();
+                    var content = $( ".SortStatus" ).val();
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{ path('homepage') }}",
+						dataType: "json",
+                        data: {
+                            "selectValue" : content
+						},
+						async: true,
+						success: function(data) {
+                            const list = $('.tasks__list');
+                            list.empty();
+							for(var key in data.task) {
+								const contentbefore = $('.tasks__list').html();
 
+                                list.innerHTML += '<li class="tasks__item"> <div class="tasks__content"> ';
+							    var title = data.task[key]['title'];
+								list.innerHTML += '<h2 class="tasks__title">' + title + '</h2>';
+
+                                var content = data.task[key]['content'];
+                                list.innerHTML += '<p>' + content + '</p>';
+
+                                var user = data.task[key]['user'];
+                                list.innerHTML += '<p class="tasks__name">' + user + '</p>';
+
+                                var done = data.task[key]['done'];
+                                done ? doneContent = 'Fait' : doneContent = 'A faire';
+                                var priority = data.task[key]['priority'];
+                                list.html(contentbefore + '<li class="tasks__item"> <div class="tasks__content">' +
+									'<h2 class="tasks__title">' + title + '</h2>' +
+									'<p>' + content + '</p>' +
+									'<p class="tasks__name">' + user + '</p>' +
+									'<p class="tasks__done">' + doneContent +'</p>');
+							}
+						}
+
+                    });
+                    e.stopImmediatePropagation();
+                    return false;
+                });
+            })
+		</script>
+	{% endblock %}
 {% endblock %}
