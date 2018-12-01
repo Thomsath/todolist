@@ -7,6 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -27,7 +28,27 @@ class TaskController extends Controller
    * @Route("/", name="homepage")
    */
 
-  public function indexAction(Request $request, TaskLoader $taskLoader) {
+  public function indexAction(Request $request, Request $requestUser, TaskLoader $taskLoader, UserLoader $userloader) {
+
+    $tasks = $taskLoader->findAllTasks();
+
+      $task = new Task();
+      $form = $this->createFormBuilder($task, array('attr' => array('class' => 'formSortTasks', 'id' => 'sort_form_tasks')))
+          ->add('done', ChoiceType::class, array(
+              'choices' => array(
+                'Les tâches à faire' => 1,
+                'Les tâches réalisées' => 2,
+                'Toutes les tâches' => 3,
+              ),
+              'attr' => array(
+                  'class' => 'SortStatus'
+              ),
+              'label' => 'Trier par statut'
+          ))
+          ->add('save', SubmitType::class, array('label' => 'Trier'))
+          ->getForm();
+
+      $form->handleRequest($request);
 
       if($request->request->get('selectValue')) {
          // $request->request->get('selectValue') == '1' ? $todo = 0 : $todo = 1;
@@ -59,42 +80,30 @@ class TaskController extends Controller
               return new JsonResponse($arrData);
           }
       }
-      $tasks = $taskLoader->findAllTasks();
 
-      $task = new Task();
-      $form = $this->createFormBuilder($task, array('attr' => array('class' => 'formSortTasks')))
-          ->add('done', ChoiceType::class, array(
-              'choices' => array(
-                'Les tâches à faire' => 1,
-                'Les tâches réalisées' => 2,
-                'Toutes les tâches' => 3,
-              ),
-              'attr' => array(
-                  'class' => 'SortStatus'
-              ),
-              'label' => 'Trier par statut'
-          ))
-          ->add('save', SubmitType::class, array('label' => 'Trier'))
-          ->getForm();
-
-      $form->handleRequest($request);
-
+      $users = $userloader->findAllUsers();
+        
+        
       return $this->render('task/index.html.twig', [
             'tasks' => $tasks,
-            'form' => $form->createView()
+            'users' => $users,
+            'form' => $form->createView(),
         ]);
   }
 
     /**
-     * @Route ("/{sortDigit}", name="sortTaskByUser", requirements={"sortDigit"="\d+"})
+     * @Route ("/user{id}", name="sortByUser")
      */
-    public function sortTask($sortDigit, Request $request, TaskLoader $taskLoader) {
-        $tasks = $taskLoader->findAllTasks(true);
-//        $sortDigit === 1 ? $tasks = $taskManager->findAllTasks(true): ;
-        return $this->render('task/index.html.twig', [
+
+    public function sortByUser($id, Request $request, TaskLoader $taskloader)
+    {
+        $tasks = $taskloader->findTasksByUser($id);
+
+        return $this->render('task/user.html.twig', [
             'tasks' => $tasks,
         ]);
     }
+    
 
   /**
    * @Route ("/deleteTask/{id}", name="deleteTask")
@@ -123,7 +132,7 @@ class TaskController extends Controller
       $selectUsers[$user->getName()] = $user;
     }
 
-      $user = new User();
+    //   $user = new User();
      // $form = $this->createForm(FormType::class, [$selectUsers, $user])->handleRequest($request);
 
     $form = $this->createFormBuilder($task)
@@ -176,8 +185,8 @@ class TaskController extends Controller
         $taskPriority ? $arrTaskPriority = array('Prioritaire' => true, 'Non prioritaire' => false,) : $arrTaskPriority = array('Non prioritaire' => false, 'Prioritaire' => true);
 
         $form = $this->createFormBuilder($task[0])
-            ->add('content', TextType::class, array('data' => $taskContent))
-            ->add('Title', TextType::class, array('data' => $taskName))
+            ->add('Title', TextType::class, array('data' => $taskName) )
+            ->add('Content', TextareaType::class, array('data' => $taskContent))
             ->add('done', CheckboxType::class, array(
                 'label'    => 'Faite',
                 'required' => false,

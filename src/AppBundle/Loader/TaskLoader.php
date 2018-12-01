@@ -29,6 +29,12 @@ class TaskLoader {
         return $this->taskRepo->findBy(
             ['done' => $status]
         );
+	}
+	
+	public function findTasksByUser($id) {
+        return $this->taskRepo->findBy(
+            ['user' => $id]
+        );
     }
 
 }

@@ -16,6 +16,7 @@ a {
   font-family: 'Roboto', sans-serif;
   background-color: #eee;
   min-height: 100vh;
+  padding-bottom: 100px;
 }
 
 .main-title {
@@ -30,10 +31,10 @@ a {
 
 .nav__list {
   margin: 0;
-  padding: 0;
+  padding: 20px;
   list-style-type: none;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -42,6 +43,74 @@ a {
   background-color: #262e50;
   border-radius: 3px;
   color: #eee;
+}
+
+.users {
+  padding: 20px;
+}
+
+.users__button {
+  border: 0;
+  background-color: #eee;
+  position: relative;
+  font-weight: 500;
+  font-size: 20px;
+  padding: 5px 0;
+  cursor: pointer;
+}
+
+.users__button:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height : 1px;
+  background-color: #262e50;
+  transition : .5s;
+}
+.users__button:hover:after {
+  width: 100%;
+}
+
+.users.activ .users__list {
+  display: flex;
+}
+
+.users__list {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+  display: none;
+  justify-content: flex-start;
+}
+
+.users__item {
+  text-decoration: underline;
+  padding: 0 10px;
+}
+
+.tri {
+  padding : 20px;
+}
+
+.tri #form {
+  display: flex;
+  align-items: center;
+}
+
+.tri #form div:nth-child(1) select {
+  margin-left: 20px;
+}
+
+.tri #form div:nth-child(2) {
+  margin-left: 30px;
+}
+.tri #form div:nth-child(2) button {
+  border: 0;
+  background-color: #d0d0d0;
+  padding: 5px 10px;
+  border-radius: 3px;
 }
 
 .tasks {
@@ -92,4 +161,34 @@ a {
   color : #262e50;
   text-align: center;
   margin: 10px 0;
+}
+
+.form-task {
+  padding: 20px;
+}
+.form-user {
+  padding : 20px;
+}
+
+.form-user form #user, .form-user #form {
+  display: flex;
+  align-items: center;
+}
+
+.form-user form #user div:nth-child(1) input, .form-user #form div:nth-child(1) input {
+  margin-left: 20px;
+}
+
+#user {
+  width: 100%;
+}
+
+.form-user form #user div:nth-child(2), .form-user #form div:nth-child(2) {
+  margin-left: 30px;
+}
+.form-user form #user div:nth-child(2) button, .form-user #form div:nth-child(2) button {
+  border: 0;
+  background-color: #d0d0d0;
+  padding: 5px 10px;
+  border-radius: 3px;
 }

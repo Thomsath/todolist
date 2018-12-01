@@ -3,13 +3,15 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-    {%  if errors is defined %}
-        {{  errors }}
-    {% endif %}
+    <div class="form-user">
+        {%  if errors is defined %}
+            {{  errors }}
+        {% endif %}
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </div>
 <div class="tasks">
 <ul class="tasks__list">
     {% for user in users %}

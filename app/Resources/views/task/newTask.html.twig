@@ -4,11 +4,13 @@
 {% block title %}{% endblock %}
 
 {% block body %}
+<div class="form-task">
     {%  if errors is defined %}
         {{  errors }}
     {% endif %}
 	{{ form_start(form) }}
 	{{ form_widget(form) }}
 	{{ form_end(form) }}
+    </div>
 
 {% endblock %}

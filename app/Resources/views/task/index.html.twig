@@ -2,14 +2,25 @@
 {% block title %}{% endblock %}
     
 {% block body %}
-<a class="nav__link" href="{{ path('sortTaskByUser', {'sortDigit': 1}) }}">Tri par user</a>
-<div class="tasks">
+	<div id="users" class="users">
+		<button onclick="toggleActiv()" class="users__button">Trier par user →</button>
+		<ul class="users__list">
+		{% for user in users %}
+			<li class="users__item"><a class="users__user" href="{{ path('sortByUser', {'id': user.id }) }}">{{ user.name }}</a></li>
+		{% endfor %}
+		</ul>
+	</div>
+
+	<div class="tri">
 	{%  if form is defined %}
 		{{ form_start(form) }}
 		{{ form_widget(form) }}
 		{{ form_end(form) }}
 	{%  endif %}
-	<ul class="tasks__list">
+	</div>
+
+	<div class="tasks">
+		<ul class="tasks__list">
 {% for task in tasks %}
 	<li class="tasks__item">
 		<div class="tasks__content">
@@ -25,7 +36,6 @@
 		<div class="tasks__buttons">
 			<a class="tasks__button" href="{{ path('deleteTask', {'id': task.id}) }}">Supprimer la tache</a>
 			<a class="tasks__button" href="{{ path('editTask', {'id': task.id}) }}">Modifier la tache</a>
-			<p class="paragraph">djdjd</p>
 		</div>
 	</li>
 {% endfor %}
@@ -33,10 +43,13 @@
 </div>
 	{% block javascripts %}
 		<script>
+			function toggleActiv() {
+				jQuery('#users').toggleClass('activ');
+			}
 			document.getElementsByClassName('nav__link').innerHTML += 'k';
 			jQuery(document).ready( function() {
 			    const list = document.getElementsByClassName('tasks__list');
-                $('form').submit(function (e) {
+                $('#sort_form_tasks').submit(function (e) {
                     e.preventDefault();
                     var content = $( ".SortStatus" ).val();
                     $.ajax({
